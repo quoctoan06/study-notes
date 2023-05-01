@@ -1,0 +1,73 @@
+- **System Design for Beginners Course**
+    - [Youtube Link](https://www.youtube.com/watch?v=m8Icp_Cid5o&t=2489s)
+    - What is System Design
+    - Design Patterns
+    - Live Streaming System Design
+        - Know what are important features, optional features and good-to-have features
+        - Product requirement doc → Features/abstract concepts → Data definitions → Objects → Database
+        - Fault Tolerance
+            - Non of the services fail in case of an outage
+        - Extensibility
+            - Not only we need to come up with technical solutions, we also must think about how easy it is to change those solutions when we need.
+            - Build a system that can Scale and Extend when requirements change
+        - Testing
+        - Summarizing the requirements
+            - Streaming video
+            - Processing video
+            - Broadcasting
+            - Failproof
+            - Advertisement
+            - Reactions
+            - Disclaimers/News Flashes
+            - Degradation of video quality in case of low bandwidth
+            - Multiple device support
+        - Core requirement - Streaming video
+        - Diagramming the approaches
+        - API Design
+        - Database Design
+        - Network Protocols
+            - HTTP Protocol is stateless, we can use it when clients request GET/POST comments. The benefit is that the server is kept simple. If the server crashes, there is no context or memory which is lost in the server
+            - TCP Protocol: reliable protocol
+            - UDP Protocol: real time efficient protocol
+            - GET video frame: use WebRTC Protocol. It’s a peer-to-peer protocol. There can be data loss when using this protocol
+            - POST video frame: use RTMP (Real Time Media Protocol) → guarantee we don’t lose any data when shooting videos
+        - Choosing a Datastore
+            - For video data:
+                - With MySQL database, it’s going to be expensive to store large files like video. It also could be very slow
+                - Video data is effectively file. So we can use file system to store it. For example: HDFS, Amazon S3.
+                    - The benefits of using file system are: cheap, easy to query, able to store very large files
+            - For user data: we can use MySQL or PostgreSQL
+            - For comment data: it’s relatively complex in storing comment data. We look for scale here so NoSQL is suitable for storing comment data.
+        - Uploading Raw Video Footage
+            - We will need to establish highly reliable network (high bandwidth, expensive) for POST video data
+        - Map Reduce for Video Transformation
+            - How to convert this raw video data and serve to customers?
+            - From a raw video, we need to transform it into different resolutions (480p, 720p…) and different formats (for different devices). To do that, we need to split the video into many segments (for example, 10-second segments) → send them to different servers to transform/compress → get different outputs → store in database. All of this can be done using Map-Reduce pattern.
+        - WebRTC vs. MPEG DASH vs. HLS
+            - WebRTC is good for video conference
+            - We would like to protocols which are more suitable for broadcasting/streaming videos:
+                - MPEG DASH. DASH stands for Dynamic adaptive streaming over HTTP. Clients will watch videos in different quality based on the quality of their bandwidth.
+                - HLS: useful for iPhone/Mac devices
+        - Content Delivery Networks
+            - CDN can handle authentication for us
+            - Clients can pull static content from CDN at faster speed
+        - High-Level Summary
+            - Define the requirements as abstract concepts (Objects)
+            - Objects can be manipulated and queried using APIs on servers
+            - The data representation need to be stored in databases
+        - Introduction to Low-Level Design
+            - Video Player Design
+                - What are actions that an user can perform?
+                    - Play video at timestamp X
+                    - Pause the video
+                    - Change video quality
+            - Engineering requirements
+                - What we need to consider?
+                    - Memory optimization
+                    - User behaviors
+                    - API calling
+        - Use case UML diagram
+        - Class UML Diagram
+        - Sequence UML Diagram
+        - Coding the Server
+        - Resources for System Design
